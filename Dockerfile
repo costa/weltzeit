@@ -6,3 +6,5 @@ ADD Gemfile /weltzeit/Gemfile
 ADD Gemfile.lock /weltzeit/Gemfile.lock
 RUN bundle install
 ADD . /weltzeit
+ENTRYPOINT ["bundle", "exec", "rails"]
+EXPOSE 80

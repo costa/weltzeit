@@ -4,10 +4,10 @@ services:
     image: postgres
   web:
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    depends_on:
+      - db
     volumes:
       - .:/weltzeit
     ports:
-      - "3000:3000"
-    depends_on:
-      - db
+      - 80
+    command: ['s', '-p', '80', '-b', '0.0.0.0']
