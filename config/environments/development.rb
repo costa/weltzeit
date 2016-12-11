@@ -1,6 +1,9 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.react.variant = :development
+  config.watchable_files.concat Dir["#{config.root}/app/views/**/*.rb"]
+
   config.action_cable.allowed_request_origins = [ 'http://costashapiro-web-1.pharod' ]
 
   # In the development environment your application's code is reloaded on

@@ -7,14 +7,22 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+
+gem 'hyper-rails', '~> 0.4.0'
+gem 'opal-rails', '~> 0.9.1'
+gem 'opal-browser', '~> 0.2.0'
+gem 'hyper-react', '~> 0.10.0'
+gem 'therubyracer', platforms: :ruby
+gem 'react-router-rails', '~> 0.13.3'
+gem 'hyper-router', '~> 2.4.0'
+gem 'hyper-mesh', '~> 0.5.2'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
