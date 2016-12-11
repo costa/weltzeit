@@ -1,13 +1,18 @@
-version: '2'
+version: '2.1'
 services:
-  db:
+  postgres:
     image: postgres
+  redis:
+    image: redis
   web:
     build: .
     depends_on:
-      - db
+      - postgres
+      - redis
     volumes:
       - .:/weltzeit
     ports:
       - 80
+    environment:
+      RAILS_ENV: "${RAILS_ENV:-production}"
     command: ['s', '-p', '80', '-b', '0.0.0.0']
