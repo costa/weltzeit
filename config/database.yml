@@ -10,3 +10,6 @@ development: &default
 test:
   <<: *default
   database: weltzeit_test
+
+production:
+  <<: *default
