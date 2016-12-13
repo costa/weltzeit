@@ -23,5 +23,6 @@ module Weltzeit
     config.autoload_paths += %W(#{config.root}/app/models/public)
     # TODO https://github.com/ruby-hyperloop/hyper-rails/issues/4 config.autoload_paths += %W(#{config.root}/app/views/components)
     config.assets.paths << ::Rails.root.join('app', 'models').to_s
+    config.assets.paths << '/tmp/weltzeit/assets'
   end
 end

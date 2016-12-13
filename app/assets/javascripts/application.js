@@ -16,4 +16,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= require webpack/client_only
 Opal.load('components');  // added by hyper-rails

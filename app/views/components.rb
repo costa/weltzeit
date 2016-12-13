@@ -1,6 +1,7 @@
 require 'opal'
-require 'react/react-source'
+require 'webpack/client_and_server.js'
 require 'hyper-react'
+require 'reactrb/auto-import'
 if React::IsomorphicHelpers.on_opal_client?
   require 'opal-jquery'
   require 'browser'

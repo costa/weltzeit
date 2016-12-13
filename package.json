@@ -1,0 +1,16 @@
+{
+  "name": "costa-shapiro",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "http://git.toptal.com/Costa-Shapiro/costa-shapiro.git"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-bootstrap": "^0.29.5"
+  },
+  "devDependencies": {
+  }
+}
