@@ -1,15 +1,14 @@
 class App < React::Component::Base
 
-  before_mount do
-    @utc_time_sec = utc_time_sec
+  def self.utc_time_sec
+    `Date.now()/1000`.to_i
   end
+
+  define_state utc_time_sec: utc_time_sec
+
   after_mount do
-    @timer = every(0.1) do
-      next unless @utc_time_sec != utc_time_sec
-      @utc_time_sec = utc_time_sec
-      @timepieces.each do |timepiece|
-        # XXX Doesn't work just yet! timepiece.utc_time_sec! @utc_time_sec
-      end
+    @timer = every(0.1) do  # NOTE to keep the seconds change close to the device clock
+      state.utc_time_sec! self.class.utc_time_sec
     end
   end
 
@@ -18,13 +17,12 @@ class App < React::Component::Base
   end
 
   render do
-
     DIV.world do
       clocks = Clock.all
-      @timepieces = [Timepiece(title: "Local", utc_time_sec: @utc_time_sec)]
+      Timepiece title: "Local", utc_time_sec: state.utc_time_sec
       clock_time_zones = {}
       clocks.each do |clock|
-        @timepieces << Timepiece(title: clock.time_zone_name, clock: clock, utc_time_sec: @utc_time_sec)
+        Timepiece title: clock.time_zone_name, clock: clock, utc_time_sec: state.utc_time_sec
         clock_time_zones[clock.time_zone_name] = true
       end
 
@@ -43,9 +41,5 @@ class App < React::Component::Base
         end  unless clock_time_zones.size == Timepiece::TIME_ZONES.size
       end
     end
-  end
-
-  def utc_time_sec
-    `Date.now()/1000`.to_i
   end
 end
