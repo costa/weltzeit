@@ -25,7 +25,8 @@ RUN mkdir webpack
 # NOTE this is so beautiful :')
 ADD webpack webpack
 ADD webpack.config.js .
-RUN webpack
+# TODO work around https://github.com/webpack/webpack/issues/1193
+RUN NODE_PATH=/tmp/weltzeit/node_modules webpack
 
 ADD . /weltzeit/
 ENTRYPOINT ["bundle", "exec", "rails"]

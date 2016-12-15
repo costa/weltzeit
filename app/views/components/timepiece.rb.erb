@@ -1,0 +1,43 @@
+class Timepiece < React::Component::Base
+
+  TIME_ZONES = <%=
+    ActiveSupport::TimeZone.all.sort_by{|tz| [tz.utc_offset, tz.name]}.map do |tz|
+    [
+      tz.name,
+      {
+        formatted_offset: tz.formatted_offset,
+        utc_offset_sec: tz.utc_offset
+      }
+    ]
+  end.to_h
+  %>
+
+  param :title
+  param :clock, default: nil, allow_nil: true
+  param :utc_time_sec
+
+  render do
+    offset_sec =
+      if params.clock.nil?
+        0
+      else
+        TIME_ZONES[params.clock.time_zone_name][:utc_offset_sec] + `(new Date()).getTimezoneOffset()` * 60
+      end
+    DIV.timepiece(style: {left: "#{2 * offset_sec / 3600}%"}) do
+      DIV.title do
+        params.title
+      end
+      DIV.datetime do
+        `(new Date((#{params.utc_time_sec} + #{offset_sec}) * 1000)).toLocaleTimeString()`
+      end
+      if !params.clock.nil?
+        ReactBootstrap::Button(bsStyle: 'link', bsSize: 'small').destroy do
+          "\u00D7" # &times;
+        end.on(:click) do
+          params.clock.destroy
+        end
+      end
+    end
+  end
+
+end

@@ -16,4 +16,5 @@ services:
     environment:
       RAILS_ENV: "${RAILS_ENV:-production}"
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      VIRTUAL_HOST: "cwock.com"
     command: ['s', '-p', '80', '-b', '0.0.0.0']

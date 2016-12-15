@@ -4,7 +4,7 @@ Rails.application.configure do
   config.react.variant = :development
   config.watchable_files.concat Dir["#{config.root}/app/views/**/*.rb"]
 
-  config.action_cable.allowed_request_origins = [ 'http://costashapiro-web-1.pharod' ]
+  config.action_cable.allowed_request_origins = ['http://weltzeit-web-1.pharod']
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
