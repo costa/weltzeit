@@ -29,5 +29,6 @@ ADD webpack.config.js .
 RUN NODE_PATH=/tmp/weltzeit/node_modules webpack
 
 ADD . /weltzeit/
+# TODO (must play nicely with docker-compose if possible) RUN test RAILS_ENV = production && bundle exec rake assets:precompile
 ENTRYPOINT ["bundle", "exec", "rails"]
 EXPOSE 80
