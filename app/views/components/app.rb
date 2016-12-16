@@ -8,7 +8,8 @@ class App < React::Component::Base
 
   after_mount do
     @timer = every(0.1) do  # NOTE to keep the seconds change close to the device clock
-      state.utc_time_sec! self.class.utc_time_sec
+      # NOTE I hope I can rid of the check at some point of the framework maturity
+      state.utc_time_sec! self.class.utc_time_sec  if state.utc_time_sec != self.class.utc_time_sec
     end
   end
 
