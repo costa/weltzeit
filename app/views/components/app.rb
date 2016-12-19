@@ -5,7 +5,7 @@ class App < React::Component::Base
   end
 
   param :authenticity_token, type: String
-  param :current_user_id, default: nil, allow_nil: true
+  param :current_user, type: User, default: nil, allow_nil: true
 
   define_state utc_time_sec: utc_time_sec
 
@@ -23,14 +23,14 @@ class App < React::Component::Base
   render do
     DIV.world do
       Timepiece title: "Local", utc_time_sec: state.utc_time_sec
-      if params.current_user_id.nil?
+      if params.current_user.nil?
         DIV.control do
           Signup authenticity_token: params.authenticity_token
           Signin authenticity_token: params.authenticity_token
         end
       else
         clock_time_zones = {}
-        Clock.each do |clock|
+        params.current_user.clocks.each do |clock|
           Timepiece title: clock.time_zone_name, clock: clock, utc_time_sec: state.utc_time_sec
           clock_time_zones[clock.time_zone_name] = true
         end
@@ -46,7 +46,8 @@ class App < React::Component::Base
           end.on(:change) do |e|
             e.target.parentElement.value = 'prompt'
             time_zone_name = e.target.value
-            Clock.create time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
+            # TODO https://github.com/ruby-hyperloop/hyper-mesh/issues/17 params.current_user.clocks.create time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
+            Clock.create user_id: params.current_user.id, time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
           end  unless clock_time_zones.size == Timepiece::TIME_ZONES.size
 
           Signout()
