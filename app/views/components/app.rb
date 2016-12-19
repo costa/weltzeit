@@ -30,7 +30,7 @@ class App < React::Component::Base
         end
       else
         clock_time_zones = {}
-        Clock.by_user_id(params.current_user_id).each do |clock|
+        Clock.each do |clock|
           Timepiece title: clock.time_zone_name, clock: clock, utc_time_sec: state.utc_time_sec
           clock_time_zones[clock.time_zone_name] = true
         end
@@ -46,7 +46,7 @@ class App < React::Component::Base
           end.on(:change) do |e|
             e.target.parentElement.value = 'prompt'
             time_zone_name = e.target.value
-            Clock.create user_id: params.current_user_id, time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
+            Clock.create time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
           end  unless clock_time_zones.size == Timepiece::TIME_ZONES.size
 
           Signout()
