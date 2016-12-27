@@ -50,7 +50,7 @@ class App < React::Component::Base
             Clock.create user_id: params.current_user.id, time_zone_name: time_zone_name  if time_zone_name != 'prompt'  # NOTE just to be certain
           end  unless clock_time_zones.size == Timepiece::TIME_ZONES.size
 
-          Signout()
+          Signout authenticity_token: params.authenticity_token
         end
       end
     end

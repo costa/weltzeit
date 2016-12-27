@@ -1,6 +1,5 @@
 class Signup < React::Component::Base
-
-  param :authenticity_token
+  include CsrfProtection
 
   define_state show_modal: false
 
@@ -20,7 +19,7 @@ class Signup < React::Component::Base
         open
       end
       ReactBootstrap::Modal(show: state.show_modal) do
-        FORM(action: '/users', method: :post) do
+        protected_form(action: '/users', method: :post) do
           ReactBootstrap::ModalHeader(closeButton: true) do
             ReactBootstrap::ModalTitle() do
               "Sign Up"
@@ -30,9 +29,8 @@ class Signup < React::Component::Base
             H4 do
               "Provide your registration credentials please"
             end
-            INPUT(type: :hidden, name: :authenticity_token, value: params.authenticity_token)
             ReactBootstrap::ControlLabel() { "Email" }
-            ReactBootstrap::FormControl(componentClass: :input, type: :email, name: 'user[email]')
+            ReactBootstrap::FormControl(componentClass: :input, type: :email, name: 'user[email]', autoFocus: true)
             BR()
             ReactBootstrap::ControlLabel() { "Password" }
             ReactBootstrap::FormControl(componentClass: :input, type: :password, name: 'user[password]')

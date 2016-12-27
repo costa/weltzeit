@@ -1,6 +1,5 @@
 class Signin < React::Component::Base
-
-  param :authenticity_token
+  include CsrfProtection
 
   define_state show_modal: false
 
@@ -12,11 +11,6 @@ class Signin < React::Component::Base
     state.show_modal! true
   end
 
-  # TODO
-  # before_mount do
-  #   $('meta[name=csrf-param]').attr('content')
-  # end
-
   render do
     DIV do
       ReactBootstrap::Button().sign do
@@ -25,7 +19,7 @@ class Signin < React::Component::Base
         open
       end
       ReactBootstrap::Modal(show: state.show_modal) do
-        FORM(action: '/users/sign_in', method: :post) do
+        protected_form(action: '/users/sign_in', method: :post) do
           ReactBootstrap::ModalHeader(closeButton: true) do
             ReactBootstrap::ModalTitle() do
               "Sign In"
@@ -35,9 +29,8 @@ class Signin < React::Component::Base
             H4 do
               "Type your credentials in please"
             end
-            INPUT(type: :hidden, name: :authenticity_token, value: params.authenticity_token)
             ReactBootstrap::ControlLabel() { "Email" }
-            ReactBootstrap::FormControl(componentClass: :input, type: :email, name: 'user[email]')
+            ReactBootstrap::FormControl(componentClass: :input, type: :email, name: 'user[email]', autoFocus: true)
             BR()
             ReactBootstrap::ControlLabel() { "Password" }
             ReactBootstrap::FormControl(componentClass: :input, type: :password, name: 'user[password]')
