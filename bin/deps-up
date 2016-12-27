@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+bundle install --no-deployment && bundle update && yarn upgrade

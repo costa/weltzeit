@@ -7,7 +7,7 @@ module.exports = {
     client_and_server: './webpack/client_and_server.js'
   },
   output: {
-    path: '/tmp/weltzeit/assets/webpack',
+    path: (process.env.RAILS_ASSETS_PATH ? process.env.RAILS_ASSETS_PATH : './public') + '/webpack',
     filename: '[name].js',
     publicPath: '/webpack/'
   },
@@ -36,10 +36,10 @@ module.exports = {
     ]
   },
   resolve: {
-    root: '/tmp/weltzeit/node_modules'
+    root: process.env.NODE_PATH  // NOTE does not respect $NODE_PATH
   },
   resolveLoader: {
-    root: '/tmp/weltzeit/node_modules'
+    root: process.env.NODE_PATH  // NOTE does not respect $NODE_PATH
   },
   plugins: [
     new ExtractTextPlugin('[name].css')

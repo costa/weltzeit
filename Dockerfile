@@ -9,24 +9,26 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev yarn
 RUN yarn global add webpack
 
-RUN mkdir /weltzeit
-RUN mkdir -p /tmp/weltzeit/assets
+RUN mkdir -p /weltzeit /tmp/weltzeit/bundle /tmp/weltzeit/node_modules /tmp/weltzeit/assets
+ENV BUNDLE_PATH=/tmp/weltzeit/bundle
+ENV NODE_PATH=/tmp/weltzeit/node_modules
+ENV RAILS_ASSETS_PATH=/tmp/weltzeit/assets
 WORKDIR /weltzeit
 
 ADD Gemfile .
 ADD Gemfile.lock .
-RUN bundle install --frozen
+RUN bundle install --path /tmp/weltzeit/bundle --deployment  # NOTE does not respect $BUNDLE_PATH
 
 ADD package.json .
 ADD yarn.lock .
-RUN yarn install --modules-folder /tmp/weltzeit/node_modules --pure-lockfile
+RUN yarn install --modules-folder /tmp/weltzeit/node_modules --pure-lockfile  # NOTE does not respect $NODE_PATH
 
 RUN mkdir webpack
 # NOTE this is so beautiful :')
 ADD webpack webpack
 ADD webpack.config.js .
-# TODO work around https://github.com/webpack/webpack/issues/1193
-RUN NODE_PATH=/tmp/weltzeit/node_modules webpack
+# NOTE https://github.com/webpack/webpack/issues/1193
+RUN webpack 2>&1 | tee /tmp/webpack.log && ! grep -iq error /tmp/webpack.log
 
 ADD . /weltzeit/
 # TODO (must play nicely with docker-compose if possible) RUN test RAILS_ENV = production && bundle exec rake assets:precompile
